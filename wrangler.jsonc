@@ -12,7 +12,7 @@
     {
       "binding": "DB",
       "database_name": "refugio-db",
-      "database_id": "00000000-0000-4000-8000-000000000000",
+      "database_id": "6c3e863b-e168-43ce-b85e-739c58a18313",
       "migrations_dir": "drizzle"
     }
   ],
