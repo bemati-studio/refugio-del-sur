@@ -1,0 +1,6 @@
+import { env } from "cloudflare:workers";
+import { currentAdminUser } from "../lib/admin";
+import AdminDashboard from "./AdminDashboard";
+export const dynamic = "force-dynamic";
+export default async function AdminPage() { const user = await currentAdminUser(); if (!user) return <main className="admin-page"><h1>Panel privado</h1><p>Acceso reservado a las cuentas autorizadas mediante Cloudflare Access. Configura el acceso antes de administrar reservas.</p><a href="/">Volver al sitio</a></main>; const result = await env.DB.prepare("SELECT * FROM reservations ORDER BY created_at DESC").all(); return <main className="admin-page"><header className="admin-header"><a className="brand" href="/"><span className="brand-mark">R</span><span><strong>Refugio del Sur</strong><small>Panel anfitrión</small></span></a><div><span>{user.displayName}</span><a href="/cdn-cgi/access/logout">Cerrar sesión</a></div></header><AdminDashboard initialRows={result.results as unknown as ReservationRow[]} /></main>; }
+export type ReservationRow = { id:string; cabin_id:string; check_in:string; check_out:string; nights:number; guests:number; total:number; deposit:number; guest_name:string; guest_email:string; guest_phone:string; message:string|null; status:string; receipt_key:string|null; receipt_name:string|null; created_at:string };
